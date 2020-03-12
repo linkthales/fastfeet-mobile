@@ -1,8 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text } from 'react-native';
 
-// import { Container } from './styles';
+import Background from '~/components/Background';
+
+import { Container } from './styles';
+import { whiteColor } from '~/styles/colors';
 
 export default function Deliveries() {
-  return <View />;
+  return (
+    <Background barStyle="dark-content" backgroundColor={whiteColor}>
+      <Container>
+        <Text>Deliveries</Text>
+      </Container>
+    </Background>
+  );
 }

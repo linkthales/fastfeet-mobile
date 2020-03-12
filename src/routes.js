@@ -6,10 +6,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import SignIn from './pages/SignIn';
+import SignIn from '~/pages/SignIn';
 
-import Deliveries from './pages/Deliveries';
-import Profile from './pages/Profile';
+import Deliveries from '~/pages/Deliveries';
+import Profile from '~/pages/Profile';
+
+import { primaryColor, placeholderColor, whiteColor } from '~/styles/colors';
 
 Icon.loadFont();
 
@@ -24,10 +26,10 @@ export default function createRouter(isSigned = false) {
   ) : (
     <Tabs.Navigator
       tabBarOptions={{
-        activeTintColor: '#fff',
-        inactiveTintColor: 'rgba(255,255,255,0.6)',
+        activeTintColor: primaryColor,
+        inactiveTintColor: placeholderColor,
         style: {
-          backgroundColor: '#8d41a8',
+          backgroundColor: whiteColor,
         },
         keyboardHidesTabBar: true,
       }}
@@ -38,7 +40,7 @@ export default function createRouter(isSigned = false) {
         options={{
           tabBarLabel: 'Entregas',
           tabBarIcon: ({ color }) => (
-            <Icon name="event" size={20} color={color} />
+            <Icon name="reorder" size={20} color={color} />
           ),
         }}
       />
@@ -48,7 +50,7 @@ export default function createRouter(isSigned = false) {
         options={{
           tabBarLabel: 'Meu Perfil',
           tabBarIcon: ({ color }) => (
-            <Icon name="person" size={20} color={color} />
+            <Icon name="account-circle" size={20} color={color} />
           ),
         }}
       />

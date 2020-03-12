@@ -30,7 +30,7 @@ export function signOut() {
 }
 
 export default all([
-  // takeLatest('persist/REHYDRATE'),
+  takeLatest('persist/REHYDRATE', signOut),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_OUT', signOut),
 ]);
