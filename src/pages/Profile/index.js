@@ -1,4 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import { StatusBar } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -26,8 +28,15 @@ export default function Profile() {
     dispatch(signOut());
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('dark-content');
+      StatusBar.setBackgroundColor(whiteColor);
+    }, []),
+  );
+
   return (
-    <Background barStyle="dark-content" backgroundColor={whiteColor}>
+    <Background>
       <Container>
         <Avatar
           source={{
