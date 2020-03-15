@@ -72,7 +72,12 @@ export default function ConfirmDelivery({ navigation, route }) {
         <Header />
         <Content>
           {cameraOpen ? (
-            <Camera ref={cameraRef} type="back" flashMode="off" />
+            <Camera
+              ref={cameraRef}
+              type="back"
+              flashMode="off"
+              captureAudio={false}
+            />
           ) : (
             <TouchableOpacity
               onPress={() => {

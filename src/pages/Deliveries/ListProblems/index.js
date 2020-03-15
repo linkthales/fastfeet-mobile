@@ -17,44 +17,40 @@ export default function ListProblems({ route }) {
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [pullLoading, setPullLoading] = useState(false);
 
   async function getDeliveryProblems() {
     try {
+      if (loading) return;
+
       setLoading(true);
 
       const response = await api.get(
         `delivery/${deliveryId}/problems?page=${currentPage}`,
       );
 
-      const { pages, problems: newProblems } = response.data;
+      const { pages: maxPages, problems: newProblems } = response.data;
 
-      setCurrentPage(currentPage + 1);
-      setPages(pages);
-      setProblems([]);
-      setProblems([...problems, ...newProblems]);
+      setProblems(
+        currentPage > 1 ? [...problems, ...newProblems] : newProblems,
+      );
+      setPages(maxPages);
       setLoading(false);
-      setPullLoading(false);
     } catch (err) {
       setLoading(false);
-      setPullLoading(false);
     }
   }
 
   useEffect(() => {
     getDeliveryProblems();
-  }, [deliveryId]);
+  }, [deliveryId, currentPage]);
 
   function handleOnRefresh() {
-    setProblems([]);
-    setPullLoading(true);
     setCurrentPage(1);
-    getDeliveryProblems();
   }
 
   function handleOnEndReached() {
-    if (pages >= currentPage && !loading && !pullLoading) {
-      getDeliveryProblems();
+    if (pages >= currentPage && !loading) {
+      setCurrentPage(currentPage + 1);
     }
   }
 
@@ -81,7 +77,7 @@ export default function ListProblems({ route }) {
           refreshControl={
             <RefreshControl
               colors={[primaryColor]}
-              refreshing={pullLoading}
+              refreshing={loading}
               onRefresh={handleOnRefresh}
             />
           }

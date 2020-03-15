@@ -38,12 +38,13 @@ export default function Deliveries({ navigation }) {
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [pullLoading, setPullLoading] = useState(false);
 
   const isFocused = useIsFocused();
 
   async function loadDeliveries() {
     try {
+      if (loading) return;
+
       setLoading(true);
 
       const response = await api.get(
@@ -52,49 +53,41 @@ export default function Deliveries({ navigation }) {
         }`,
       );
 
-      const { pages, deliveries: newDeliveries } = response.data;
+      const { pages: maxPages, deliveries: newDeliveries } = response.data;
 
-      setCurrentPage(currentPage + 1);
-      setPages(pages);
-      setDeliveries([]);
-      setDeliveries([...deliveries, ...newDeliveries]);
+      setDeliveries(
+        currentPage > 1 ? [...deliveries, ...newDeliveries] : newDeliveries,
+      );
+      setPages(maxPages);
       setLoading(false);
-      setPullLoading(false);
     } catch (err) {
       setLoading(false);
-      setPullLoading(false);
     }
   }
 
   useEffect(() => {
-    async function handleChange() {
-      if (isFocused) {
-        loadDeliveries();
-      }
+    if (isFocused) {
+      loadDeliveries();
     }
-
-    handleChange();
-  }, [isFocused, delivered]);
+  }, [isFocused, delivered, currentPage]);
 
   function handleLogout() {
     dispatch(signOut());
   }
 
-  function handleOnRefresh() {
-    setDeliveries([]);
-    setPullLoading(true);
+  async function handleOnRefresh() {
     setCurrentPage(1);
-    loadDeliveries();
   }
 
   function handleOnEndReached() {
-    if (pages >= currentPage && !loading && !pullLoading) {
-      loadDeliveries();
+    if (pages > currentPage && !loading) {
+      setCurrentPage(currentPage + 1);
     }
   }
 
   useFocusEffect(
     useCallback(() => {
+      setCurrentPage(1);
       StatusBar.setBarStyle('dark-content');
       StatusBar.setBackgroundColor(whiteColor);
     }, []),
@@ -128,7 +121,6 @@ export default function Deliveries({ navigation }) {
               onPress={async () => {
                 if (delivered) {
                   setCurrentPage(1);
-                  await setDeliveries([]);
                 }
                 setDelivered(false);
               }}
@@ -140,7 +132,6 @@ export default function Deliveries({ navigation }) {
               onPress={async () => {
                 if (!delivered) {
                   setCurrentPage(1);
-                  await setDeliveries([]);
                 }
                 setDelivered(true);
               }}
@@ -161,13 +152,12 @@ export default function Deliveries({ navigation }) {
           refreshControl={
             <RefreshControl
               colors={[primaryColor]}
-              refreshing={pullLoading}
+              refreshing={loading}
               onRefresh={handleOnRefresh}
             />
           }
           ListFooterComponent={() =>
-            loading &&
-            !pullLoading && <Loading size="small" color={primaryColor} />
+            loading && <Loading size="small" color={primaryColor} />
           }
           onEndReachedThreshold={0.4}
           onEndReached={handleOnEndReached}
