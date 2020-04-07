@@ -14,21 +14,22 @@ export const Content = styled.View`
 `;
 
 export const Camera = styled(RNCamera)`
-  width: 335px;
-  height: 444px;
+  width: 300px;
+  height: 350px;
   border-radius: 5px;
+  margin: 20px 0;
   justify-content: flex-end;
   align-items: center;
 `;
 
 export const Image = styled.Image`
-  width: 335px;
-  height: 444px;
+  width: 300px;
+  height: 350px;
   border-radius: 5px;
 `;
 
 export const StyledButton = styled(Button)`
   background: ${primaryColor};
-  width: 335px;
+  width: 300px;
   margin: 20px 0;
 `;

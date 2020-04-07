@@ -1,4 +1,4 @@
-package com.fastfeetmobile;
+package com.fastfeet;
 
 import android.app.Application;
 import android.content.Context;

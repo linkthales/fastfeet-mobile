@@ -37,7 +37,7 @@ export default function ConfirmDelivery({ navigation, route }) {
 
       data.append('file', {
         uri: photo,
-        name: 'signature.jpg',
+        name: `signature-${deliveryId}.jpg`,
         type: 'image/jpg',
       });
 

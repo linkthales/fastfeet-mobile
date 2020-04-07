@@ -45,7 +45,11 @@ export default function ListProblems({ route }) {
   }, [deliveryId, currentPage]);
 
   function handleOnRefresh() {
-    setCurrentPage(1);
+    if (currentPage !== 1) {
+      return setCurrentPage(1);
+    }
+
+    return getDeliveryProblems();
   }
 
   function handleOnEndReached() {
@@ -82,6 +86,7 @@ export default function ListProblems({ route }) {
             />
           }
           ListFooterComponent={() =>
+            currentPage !== 1 &&
             loading && <Loading size="small" color={primaryColor} />
           }
           onEndReachedThreshold={0.4}

@@ -28,6 +28,9 @@ function DeliveryStack() {
       screenOptions={{
         headerTransparent: true,
         headerTintColor: whiteColor,
+        headerStyle: {
+          backgroundColor: primaryColor,
+        },
         headerLeftContainerStyle: {
           marginLeft: 20,
         },
@@ -37,8 +40,19 @@ function DeliveryStack() {
       <Stack.Screen
         name="Detail"
         component={Detail}
+        screenOptions={{
+          headerTintColor: whiteColor,
+          headerLeftContainerStyle: {
+            marginLeft: 20,
+          },
+        }}
         options={({ navigation }) => ({
           title: 'Detalhes da encomenda',
+
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: primaryColor,
+          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -55,6 +69,11 @@ function DeliveryStack() {
         component={ReportProblem}
         options={({ navigation }) => ({
           title: 'Informar problema',
+
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: primaryColor,
+          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -71,6 +90,11 @@ function DeliveryStack() {
         component={ListProblems}
         options={({ navigation }) => ({
           title: 'Visualizar problemas',
+
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: primaryColor,
+          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -87,6 +111,11 @@ function DeliveryStack() {
         component={ConfirmDelivery}
         options={({ navigation }) => ({
           title: 'Confirmar entrega',
+
+          headerTransparent: false,
+          headerStyle: {
+            backgroundColor: primaryColor,
+          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {

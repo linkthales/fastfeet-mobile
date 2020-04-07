@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import PropTypes from 'prop-types';
 
+import { ScrollView } from 'react-native-gesture-handler';
 import Background from '~/components/Background';
 import Header from '~/components/Header';
 import api from '~/services/api';
@@ -76,105 +77,107 @@ export default function Detail({ navigation, route }) {
   return (
     <Background>
       <Container>
-        <Header />
-        <Content>
-          <ContentHeader>
-            <Icon name="local-shipping" size={25} color={primaryColor} />
-            <HeaderText>Informações da entrega</HeaderText>
-          </ContentHeader>
+        <ScrollView>
+          <Header />
+          <Content>
+            <ContentHeader>
+              <Icon name="local-shipping" size={25} color={primaryColor} />
+              <HeaderText>Informações da entrega</HeaderText>
+            </ContentHeader>
 
-          <Title>DESTINATÁRIO</Title>
-          <Info>{delivery.recipient.name}</Info>
+            <Title>DESTINATÁRIO</Title>
+            <Info>{delivery.recipient.name}</Info>
 
-          <Title>ENDEREÇO DE ENTREGA</Title>
-          <Info>{delivery.recipient.full_address}</Info>
+            <Title>ENDEREÇO DE ENTREGA</Title>
+            <Info>{delivery.recipient.full_address}</Info>
 
-          <Title>PRODUTO</Title>
-          <Info>{delivery.product}</Info>
-        </Content>
+            <Title>PRODUTO</Title>
+            <Info>{delivery.product}</Info>
+          </Content>
 
-        <Content>
-          <ContentHeader>
-            <Icon name="event" size={25} color={primaryColor} />
-            <HeaderText>Situação da entrega</HeaderText>
-          </ContentHeader>
+          <Content>
+            <ContentHeader>
+              <Icon name="event" size={25} color={primaryColor} />
+              <HeaderText>Situação da entrega</HeaderText>
+            </ContentHeader>
 
-          <Title>STATUS</Title>
-          <Info>
-            {delivery.end_date
-              ? 'Entregue'
-              : delivery.start_date
-              ? 'Pendente'
-              : 'Aguardando retirada'}
-          </Info>
+            <Title>STATUS</Title>
+            <Info>
+              {delivery.end_date
+                ? 'Entregue'
+                : delivery.start_date
+                ? 'Pendente'
+                : 'Aguardando retirada'}
+            </Info>
 
-          <Row>
-            <View>
-              <Title>DATA DE RETIRADA</Title>
-              <Info>{startDate}</Info>
-            </View>
+            <Row>
+              <View>
+                <Title>DATA DE RETIRADA</Title>
+                <Info>{startDate}</Info>
+              </View>
 
-            <View>
-              <Title>DATA DE ENTREGA</Title>
-              <Info>{endDate}</Info>
-            </View>
-          </Row>
-        </Content>
+              <View>
+                <Title>DATA DE ENTREGA</Title>
+                <Info>{endDate}</Info>
+              </View>
+            </Row>
+          </Content>
 
-        {delivery.start_date && !delivery.end_date ? (
-          <Actions>
+          {delivery.start_date && !delivery.end_date ? (
+            <Actions>
+              <>
+                <Block>
+                  <CustomOpacity
+                    onPress={() => {
+                      handleNavigation('ReportProblem');
+                    }}
+                  >
+                    <Icon name="highlight-off" size={20} color={dangerColor} />
+                    <Text>Informar{'\n'}Problema</Text>
+                  </CustomOpacity>
+                </Block>
+                <Divider />
+                <Block>
+                  <CustomOpacity
+                    onPress={() => {
+                      handleNavigation('ListProblems');
+                    }}
+                  >
+                    <Icon name="info-outline" size={20} color={warningColor} />
+                    <Text>Visualizar{'\n'}Problemas</Text>
+                  </CustomOpacity>
+                </Block>
+                <Divider />
+                <Block>
+                  <CustomOpacity
+                    onPress={() => {
+                      handleNavigation('ConfirmDelivery');
+                    }}
+                  >
+                    <Icon name="alarm-on" size={20} color={primaryColor} />
+                    <Text>Confirmar{'\n'}Entrega</Text>
+                  </CustomOpacity>
+                </Block>
+              </>
+            </Actions>
+          ) : !delivery.end_date ? (
             <>
-              <Block>
-                <CustomOpacity
-                  onPress={() => {
-                    handleNavigation('ReportProblem');
-                  }}
-                >
-                  <Icon name="highlight-off" size={20} color={dangerColor} />
-                  <Text>Informar{'\n'}Problema</Text>
-                </CustomOpacity>
-              </Block>
-              <Divider />
-              <Block>
-                <CustomOpacity
-                  onPress={() => {
-                    handleNavigation('ListProblems');
-                  }}
-                >
-                  <Icon name="info-outline" size={20} color={warningColor} />
-                  <Text>Visualizar{'\n'}Problemas</Text>
-                </CustomOpacity>
-              </Block>
-              <Divider />
-              <Block>
-                <CustomOpacity
-                  onPress={() => {
-                    handleNavigation('ConfirmDelivery');
-                  }}
-                >
-                  <Icon name="alarm-on" size={20} color={primaryColor} />
-                  <Text>Confirmar{'\n'}Entrega</Text>
-                </CustomOpacity>
-              </Block>
+              <RetrieveButton onPress={handleRetrieve}>
+                Retirar encomenda
+              </RetrieveButton>
             </>
-          </Actions>
-        ) : !delivery.end_date ? (
-          <>
-            <RetrieveButton onPress={handleRetrieve}>
-              Retirar encomenda
-            </RetrieveButton>
-          </>
-        ) : (
-          <>
-            <RetrieveButton
-              onPress={() => {
-                handleNavigation('ListProblems');
-              }}
-            >
-              Visualizar Problemas
-            </RetrieveButton>
-          </>
-        )}
+          ) : (
+            <>
+              <RetrieveButton
+                onPress={() => {
+                  handleNavigation('ListProblems');
+                }}
+              >
+                Visualizar Problemas
+              </RetrieveButton>
+            </>
+          )}
+        </ScrollView>
       </Container>
     </Background>
   );

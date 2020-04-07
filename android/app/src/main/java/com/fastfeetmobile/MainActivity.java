@@ -1,4 +1,4 @@
-package com.fastfeetmobile;
+package com.fastfeet;
 
 import com.facebook.react.ReactActivity;
 

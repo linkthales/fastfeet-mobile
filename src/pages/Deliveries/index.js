@@ -69,14 +69,18 @@ export default function Deliveries({ navigation }) {
     if (isFocused) {
       loadDeliveries();
     }
-  }, [isFocused, delivered, currentPage]);
+  }, [delivered, currentPage, isFocused]);
 
   function handleLogout() {
     dispatch(signOut());
   }
 
   async function handleOnRefresh() {
-    setCurrentPage(1);
+    if (currentPage !== 1) {
+      return setCurrentPage(1);
+    }
+
+    return loadDeliveries();
   }
 
   function handleOnEndReached() {
@@ -157,6 +161,7 @@ export default function Deliveries({ navigation }) {
             />
           }
           ListFooterComponent={() =>
+            currentPage !== 1 &&
             loading && <Loading size="small" color={primaryColor} />
           }
           onEndReachedThreshold={0.4}

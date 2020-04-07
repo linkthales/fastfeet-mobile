@@ -49,6 +49,7 @@ export const Info = styled.Text`
 export const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 export const Actions = styled.View`
@@ -58,7 +59,7 @@ export const Actions = styled.View`
   background: ${backgroundColor};
   border: 1px solid ${borderColor};
   border-radius: 5px;
-  margin: 0 20px;
+  margin: 0 20px 20px;
 `;
 
 export const Block = styled.View`
@@ -84,5 +85,5 @@ export const Text = styled.Text`
 
 export const RetrieveButton = styled(Button)`
   background: ${primaryColor};
-  margin: 0 20px;
+  margin: 0 20px 20px;
 `;
